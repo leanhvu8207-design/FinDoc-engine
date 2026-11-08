@@ -12,7 +12,7 @@
 ## Giai đoạn 2: Parser Đa phương thức & Table Extraction (Ingestion Pipeline)
 - [x] **Task 2.1**: Thu thập Dataset Báo cáo Tài chính Mẫu (`scripts/download_sample_bctc.py` -> `data/raw_pdfs/`)
 - [x] **Task 2.2**: Module Nhận diện & Trích xuất Bảng Biểu (`src/infrastructure/parsers/table_extractor.py`, `src/infrastructure/parsers/pdfplumber_adapter.py`, `tests/unit/test_table_extractor.py`)
-- [ ] **Task 2.3**: Module Chunking Giữ Ngữ cảnh Tài chính (`src/application/services/financial_chunker.py`)
+- [x] **Task 2.3**: Module Chunking Giữ Ngữ cảnh Tài chính (`src/application/services/financial_chunker.py`, `tests/unit/test_financial_chunker.py`)
 
 ## Giai đoạn 3: Tầng Lưu trữ & Lập Chỉ mục (Storage & Vector Indexing)
 - [ ] **Task 3.1**: Adapter cho Embedding Model (`src/infrastructure/ml_models/embedding_adapter.py`)
