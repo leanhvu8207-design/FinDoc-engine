@@ -21,8 +21,8 @@
 - [x] **Task 3.4**: Use Case Ingest Document Hoàn chỉnh (`src/application/use_cases/ingest_document.py`, `tests/integration/test_ingest_use_case.py`)
 
 ## Giai đoạn 4: Hybrid Retrieval, Reranking & Numeric Guardrails
-- [ ] **Task 4.1**: Thuật toán Hợp nhất Điểm số Reciprocal Rank Fusion (`src/application/services/fusion_service.py`)
-- [ ] **Task 4.2**: Adapter cho Cross-Encoder Reranker (`src/infrastructure/ml_models/reranker_adapter.py`)
+- [x] **Task 4.1**: Thuật toán Hợp nhất Điểm số Reciprocal Rank Fusion (`src/application/services/fusion_service.py`, `tests/unit/test_score_fusion.py`)
+- [x] **Task 4.2**: Adapter cho Cross-Encoder Reranker (`src/infrastructure/ml_models/reranker_adapter.py`, `tests/unit/test_reranker_adapter.py`)
 - [ ] **Task 4.3**: Bộ Kiểm tra Số học Chống Ảo giác (`src/infrastructure/validators/numeric_guardrail.py`)
 - [ ] **Task 4.4**: Use Case Hybrid Search & Answering (`src/application/use_cases/hybrid_search.py`, `src/application/use_cases/answer_with_verify.py`)
 
