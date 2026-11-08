@@ -1,0 +1,44 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.pyd
+build/
+dist/
+*.egg-info/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Environment variables
+.env
+.env.local
+
+# Tool caches
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# Data & Local Storage (Raw PDFs and local DB storage)
+data/raw_pdfs/*.pdf
+data/processed/*.json
+data/qdrant_storage/
+data/duckdb/
+*.duckdb
+*.duckdb.wal
+qdrant_storage/
+
+# Keep directory placeholders
+!data/raw_pdfs/.gitkeep
+!data/processed/.gitkeep
+!data/test_suite/.gitkeep
+
+# IDE
+.vscode/
+.idea/
+*.swp

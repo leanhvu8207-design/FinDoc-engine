@@ -1,0 +1,26 @@
+# FinDoc-Engine Base Configuration
+app:
+  name: "FinDoc-Engine"
+  version: "0.1.0"
+  environment: "development"
+
+models:
+  embedding_model: "intfloat/multilingual-e5-base"
+  reranker_model: "BAAI/bge-reranker-base"
+  vector_dim: 768
+  device: "cpu"
+
+chunking:
+  chunk_size: 1024
+  chunk_overlap: 128
+  max_table_rows_per_chunk: 100
+  preserve_table_integrity: true
+
+retrieval:
+  rrf_k: 60
+  default_top_k: 5
+  rerank_top_k: 20
+
+guardrail:
+  numeric_tolerance: 0.0001
+  strict_mode: true
