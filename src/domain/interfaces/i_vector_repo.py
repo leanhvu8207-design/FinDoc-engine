@@ -1,4 +1,4 @@
-"""Interface contract for vector database repositories (Phase 1 - Task 1.2)."""
+"""Interface contract for vector database repositories (Phase 1 - Task 1.2 & Phase 3 - Task 3.2)."""
 
 from abc import ABC, abstractmethod
 
@@ -14,7 +14,7 @@ class IVectorRepository(ABC):
     def upsert(
         self,
         chunks: list[Chunk],
-        vectors: list[list[float]] | None = None,
+        vectors: list[list[float]],
     ) -> int:
         """Insert or update a batch of document chunks and their dense vectors.
 
@@ -29,19 +29,27 @@ class IVectorRepository(ABC):
             VectorStoreError: If the database upsert operation fails.
         """
 
+    def upsert_chunks(
+        self,
+        chunks: list[Chunk],
+        embeddings: list[list[float]],
+    ) -> int:
+        """Alias for `upsert` matching Task 3.2 specification."""
+        return self.upsert(chunks=chunks, vectors=embeddings)
+
     @abstractmethod
     def search(
         self,
-        vector: list[float],
+        query_vector: list[float],
         top_k: int = 10,
         filter: QueryFilter | None = None,
     ) -> list[SearchResult]:
         """Perform dense cosine similarity search with optional metadata filtering.
 
         Args:
-            vector: Query dense embedding vector.
+            query_vector: Query dense embedding vector.
             top_k: Maximum number of top results to return.
-            filter: Optional QueryFilter for ticker, year, quarter, or report_type.
+            filter: Optional QueryFilter for ticker, year, quarter, report_type, or chunk_type.
 
         Returns:
             Ranked list of SearchResult entities ordered by descending similarity score.

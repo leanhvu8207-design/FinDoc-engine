@@ -38,7 +38,8 @@ qdrant_storage/
 !data/processed/.gitkeep
 !data/test_suite/.gitkeep
 
-# IDE
+# IDE & OS / Office Lock Files
 .vscode/
 .idea/
 *.swp
+~$*

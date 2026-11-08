@@ -15,8 +15,8 @@
 - [x] **Task 2.3**: Module Chunking Giữ Ngữ cảnh Tài chính (`src/application/services/financial_chunker.py`, `tests/unit/test_financial_chunker.py`)
 
 ## Giai đoạn 3: Tầng Lưu trữ & Lập Chỉ mục (Storage & Vector Indexing)
-- [ ] **Task 3.1**: Adapter cho Embedding Model (`src/infrastructure/ml_models/embedding_adapter.py`)
-- [ ] **Task 3.2**: Adapter cho Qdrant Vector Database (`src/infrastructure/persistence/qdrant_repo.py`)
+- [x] **Task 3.1**: Adapter cho Embedding Model (`src/infrastructure/ml_models/embedding_adapter.py`, `tests/unit/test_embedding_adapter.py`)
+- [x] **Task 3.2**: Adapter cho Qdrant Vector Database (`src/infrastructure/persistence/qdrant_repo.py`, `tests/unit/test_qdrant_repo.py`)
 - [ ] **Task 3.3**: Adapter cho Sparse Index BM25 (`src/infrastructure/persistence/bm25_repo.py`)
 - [ ] **Task 3.4**: Use Case Ingest Document Hoàn chỉnh (`src/application/use_cases/ingest_document.py`)
 
