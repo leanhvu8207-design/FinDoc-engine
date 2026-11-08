@@ -12,7 +12,10 @@ Hệ thống trích xuất, lập chỉ mục và truy vấn ngữ nghĩa chuyê
 - [x] **Giai đoạn 1: Tầng Domain & Dữ liệu Cốt lõi (Domain Modeling)**
   - [x] Task 1.1: Định nghĩa các Thực thể Nghiệp vụ (`src/domain/entities/`) & Custom Exceptions (`src/domain/exceptions.py`)
   - [x] Task 1.2: Định nghĩa các Giao diện Cốt lõi (`src/domain/interfaces/`) + Unit Tests (`tests/unit/test_domain_entities.py`)
-- [ ] **Giai đoạn 2: Parser Đa phương thức & Table Extraction (Ingestion Pipeline)**
+- [x] **Giai đoạn 2: Parser Đa phương thức & Table Extraction (Ingestion Pipeline)**
+  - [x] Task 2.1: Thu thập Dataset Báo cáo Tài chính Mẫu (`scripts/download_sample_bctc.py`)
+  - [x] Task 2.2: Module Nhận diện & Trích xuất Bảng Biểu (`src/infrastructure/parsers/`)
+  - [x] Task 2.3: Module Chunking Giữ Ngữ cảnh Tài chính (`src/application/services/financial_chunker.py`)
 - [ ] **Giai đoạn 3: Tầng Lưu trữ & Lập Chỉ mục (Storage & Vector Indexing)**
 - [ ] **Giai đoạn 4: Hybrid Retrieval, Reranking & Numeric Guardrails**
 - [ ] **Giai đoạn 5: Tầng API, Packaging & Đánh giá Định lượng (Evaluation Suite)**
