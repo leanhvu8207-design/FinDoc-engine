@@ -27,6 +27,6 @@
 - [x] **Task 4.4**: Use Case Hybrid Search & Answering (`src/application/use_cases/hybrid_search.py`, `src/application/use_cases/answer_with_verify.py`, `tests/integration/test_hybrid_search_use_case.py`)
 
 ## Giai đoạn 5: Tầng API, Packaging & Đánh giá Định lượng (Evaluation Suite)
-- [ ] **Task 5.1**: Xây dựng REST API bằng FastAPI (`src/presentation/`)
-- [ ] **Task 5.2**: Xây dựng Bộ Đánh giá Định lượng (`tests/evaluation/`)
-- [ ] **Task 5.3**: Hoàn thiện Tài liệu Kỹ thuật (`README.md`)
+- [x] **Task 5.1**: Xây dựng REST API bằng FastAPI (`src/presentation/api/`, `src/presentation/main.py`, `tests/integration/test_api_endpoints.py`)
+- [x] **Task 5.2**: Xây dựng Bộ Đánh giá Định lượng (`data/test_suite/ground_truth.json`, `tests/evaluation/evaluate_retrieval.py`, `scripts/run_benchmark.py`, `tests/unit/test_benchmark_harness.py`)
+- [x] **Task 5.3**: Hoàn thiện Tài liệu Kỹ thuật (`README.md`, `PROGRESS.md`)
