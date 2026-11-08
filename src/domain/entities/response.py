@@ -1,8 +1,9 @@
-"""SearchResult, Citation, ValidationReport, and ValidationStatus entities (Phase 1 - Task 1.1)."""
+"""SearchResult, Citation, ValidationReport, and ValidationStatus entities (Phase 1 & Phase 4)."""
 
 from enum import StrEnum
+from typing import Any
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 from src.domain.entities.document import Chunk, ChunkType
 from src.domain.entities.page import BoundingBox
@@ -111,10 +112,27 @@ class ValidationReport(BaseModel):
         default_factory=list,
         description="Hallucinated or mismatched numbers absent from source tables",
     )
+    hallucinated_numbers: list[float] = Field(
+        default_factory=list,
+        description="Alias field storing hallucinated numbers not found in source tables",
+    )
     message: str = Field(
         default="",
         description="Human-readable explanation of the verification outcome",
     )
+
+    @model_validator(mode="before")
+    @classmethod
+    def sync_unverified_and_hallucinated(cls, data: Any) -> Any:
+        """Keep `unverified_numbers` and `hallucinated_numbers` synchronized."""
+        if isinstance(data, dict):
+            unverified = data.get("unverified_numbers")
+            hallucinated = data.get("hallucinated_numbers")
+            if unverified is not None and hallucinated is None:
+                data["hallucinated_numbers"] = list(unverified)
+            elif hallucinated is not None and unverified is None:
+                data["unverified_numbers"] = list(hallucinated)
+        return data
 
     @property
     def is_valid(self) -> bool:

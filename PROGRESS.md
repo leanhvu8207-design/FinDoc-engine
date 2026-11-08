@@ -23,8 +23,8 @@
 ## Giai đoạn 4: Hybrid Retrieval, Reranking & Numeric Guardrails
 - [x] **Task 4.1**: Thuật toán Hợp nhất Điểm số Reciprocal Rank Fusion (`src/application/services/fusion_service.py`, `tests/unit/test_score_fusion.py`)
 - [x] **Task 4.2**: Adapter cho Cross-Encoder Reranker (`src/infrastructure/ml_models/reranker_adapter.py`, `tests/unit/test_reranker_adapter.py`)
-- [ ] **Task 4.3**: Bộ Kiểm tra Số học Chống Ảo giác (`src/infrastructure/validators/numeric_guardrail.py`)
-- [ ] **Task 4.4**: Use Case Hybrid Search & Answering (`src/application/use_cases/hybrid_search.py`, `src/application/use_cases/answer_with_verify.py`)
+- [x] **Task 4.3**: Bộ Kiểm tra Số học Chống Ảo giác (`src/infrastructure/validators/numeric_guardrail.py`, `tests/unit/test_numeric_guardrail.py`)
+- [x] **Task 4.4**: Use Case Hybrid Search & Answering (`src/application/use_cases/hybrid_search.py`, `src/application/use_cases/answer_with_verify.py`, `tests/integration/test_hybrid_search_use_case.py`)
 
 ## Giai đoạn 5: Tầng API, Packaging & Đánh giá Định lượng (Evaluation Suite)
 - [ ] **Task 5.1**: Xây dựng REST API bằng FastAPI (`src/presentation/`)
