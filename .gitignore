@@ -27,6 +27,7 @@ htmlcov/
 # Data & Local Storage (Raw PDFs and local DB storage)
 data/raw_pdfs/*.pdf
 data/processed/*.json
+data/processed/*.pkl
 data/qdrant_storage/
 data/duckdb/
 *.duckdb
