@@ -89,7 +89,7 @@ class Settings(BaseSettings):
         description="Google Gemini API Key for answer synthesis",
     )
     gemini_model_name: str = Field(
-        default="gemini-2.5-flash",
+        default="gemini-3.5-flash-lite",
         description="Google Gemini model identifier",
     )
 

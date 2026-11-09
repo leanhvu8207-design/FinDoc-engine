@@ -15,6 +15,15 @@ from src.domain.entities.table import TableBlock
 from src.domain.exceptions import FinDocError, HallucinationError
 from src.domain.interfaces.i_validator import INumericValidator
 
+_RETIRED_GEMINI_MODELS = frozenset(
+    {
+        "gemini-1.5-flash",
+        "gemini-1.5-pro",
+        "gemini-2.0-flash",
+        "gemini-2.5-flash",
+    }
+)
+
 
 class LLMClientProtocol(Protocol):
     """Port protocol for LLM answer synthesis from retrieved financial context."""
@@ -29,12 +38,39 @@ class GeminiLLMClient:
     def __init__(
         self,
         api_key: str,
-        model_name: str = "gemini-1.5-flash",
-        timeout_seconds: int = 30,
+        model_name: str = "gemini-3.5-flash-lite",
+        timeout_seconds: int = 20,
     ) -> None:
         self._api_key = api_key.strip()
-        self._model_name = model_name.strip() or "gemini-1.5-flash"
+        cleaned_model = model_name.strip() or "gemini-3.5-flash-lite"
+        if cleaned_model in _RETIRED_GEMINI_MODELS:
+            cleaned_model = "gemini-3.5-flash-lite"
+        self._model_name = cleaned_model
         self._timeout = timeout_seconds
+
+    def _call_model(self, model_name: str, full_prompt: str) -> str:
+        """Execute HTTP POST request against a specific Gemini model identifier."""
+        url = (
+            f"https://generativelanguage.googleapis.com/v1beta/models/"
+            f"{model_name}:generateContent?key={self._api_key}"
+        )
+        payload = {
+            "contents": [{"parts": [{"text": full_prompt}]}],
+            "generationConfig": {"temperature": 0.0},
+        }
+        req = urllib.request.Request(
+            url,
+            data=json.dumps(payload).encode("utf-8"),
+            headers={"Content-Type": "application/json"},
+            method="POST",
+        )
+        with urllib.request.urlopen(req, timeout=self._timeout) as resp:
+            body = json.loads(resp.read().decode("utf-8"))
+        candidates = body.get("candidates", [])
+        if not candidates:
+            raise FinDocError("Gemini API returned no candidates")
+        parts = candidates[0].get("content", {}).get("parts", [])
+        return "".join(str(p.get("text", "")) for p in parts).strip()
 
     def generate_answer(self, query: str, context: str) -> str:
         """Call Gemini `generateContent` endpoint with strict zero-hallucination instructions."""
@@ -51,33 +87,21 @@ class GeminiLLMClient:
         )
         full_prompt = f"{system_prompt}\n\n=== NGỮ CẢNH ===\n{context}\n\n=== CÂU HỎI ===\n{query}"
 
-        url = (
-            f"https://generativelanguage.googleapis.com/v1beta/models/"
-            f"{self._model_name}:generateContent?key={self._api_key}"
-        )
-        payload = {
-            "contents": [{"parts": [{"text": full_prompt}]}],
-            "generationConfig": {"temperature": 0.0},
-        }
-        req = urllib.request.Request(
-            url,
-            data=json.dumps(payload).encode("utf-8"),
-            headers={"Content-Type": "application/json"},
-            method="POST",
-        )
-        try:
-            with urllib.request.urlopen(req, timeout=self._timeout) as resp:
-                body = json.loads(resp.read().decode("utf-8"))
-            candidates = body.get("candidates", [])
-            if not candidates:
-                raise FinDocError("Gemini API returned no candidates")
-            parts = candidates[0].get("content", {}).get("parts", [])
-            return "".join(str(p.get("text", "")) for p in parts).strip()
-        except urllib.error.URLError as exc:
-            raise FinDocError(
-                f"Gemini API request failed: {exc}",
-                details={"model": self._model_name},
-            ) from exc
+        candidate_models = [self._model_name]
+        if "gemini-3.5-flash-lite" not in candidate_models:
+            candidate_models.append("gemini-3.5-flash-lite")
+
+        last_exc: Exception | None = None
+        for model in candidate_models:
+            try:
+                return self._call_model(model, full_prompt)
+            except (urllib.error.URLError, TimeoutError, FinDocError) as exc:
+                last_exc = exc
+
+        raise FinDocError(
+            f"Gemini API request failed: {last_exc}",
+            details={"model": self._model_name},
+        ) from last_exc
 
 
 class AnswerWithVerifyUseCase:
@@ -110,8 +134,6 @@ class AnswerWithVerifyUseCase:
             if chunk.table_block is not None:
                 source_tables.append(chunk.table_block)
             else:
-                # Create a lightweight virtual TableBlock from TEXT chunk so numeric claims
-                # sourced from narrative notes are also included in ground-truth verification.
                 source_tables.append(
                     TableBlock(
                         page_number=chunk.page_number,
